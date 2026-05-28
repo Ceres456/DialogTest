@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     Button btn;
+    boolean[] checkArr = {false, false, false};
     String[] itemArr = {"떡볶이", "튀김", "순대"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,31 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("버튼 라벨 변경");
             dialog.setIcon(R.drawable.img2);
-            dialog.setItems(itemArr, new DialogInterface.OnClickListener() {
+            dialog.setMultiChoiceItems(itemArr, checkArr, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    btn.setText(itemArr[which]);
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    btn.setText("");
+                    if(isChecked)
+                        checkArr[which] = true;
+                    for (int i = 0; i < checkArr.length; i++) {
+                        if(checkArr[i])
+                            btn.append(itemArr[i] + " :: ");
+                    }
                 }
             });
+
+//            dialog.setSingleChoiceItems(itemArr, 0,new DialogInterface.OnClickListener(){
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    btn.setText(itemArr[which]);
+//                }
+//            });
+//            dialog.setItems(itemArr, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    btn.setText(itemArr[which]);
+//                }
+//            });
 
             dialog.setPositiveButton("닫기", null);
             dialog.show();
